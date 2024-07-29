@@ -30,7 +30,7 @@ const ProductPage = () => {
     <div className="flex justify-center py-5">
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mr-4">
       {products.map((product) => (
-        <CardProduct>
+        <CardProduct key={product.id}>
           <CardProduct.Header image={product.image} />
           <CardProduct.Body name={product.name}>
             {product.description}
