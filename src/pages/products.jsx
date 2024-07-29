@@ -1,6 +1,7 @@
 import {Fragment} from "react";
 import Button from "../components/Elements/Button/";
-import CardProduct from "../components/Fragments/CardProduct"
+import CardProduct from "../components/Fragments/CardProduct";
+import Counter from "../components/Fragments/Counter";
 
 const products = [
   {
@@ -54,6 +55,9 @@ const ProductPage = () => {
             </CardProduct>
           ))}
         </div>
+      </div>
+      <div className="flex w-100 justify-center py-5">
+        <Counter></Counter>
       </div>
     </Fragment>
   );
