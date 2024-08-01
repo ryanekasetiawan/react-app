@@ -72,7 +72,7 @@ useEffect(() => {
         <div className="w-full md:w-4/6 flex flex-wrap gap-4">
           {products.length > 0 && products.map((product) => (
             <CardProduct key={product.id} className="w-full md:w-1/2 lg:w-1/3 p-2">
-              <CardProduct.Header image={product.image} />
+              <CardProduct.Header image={product.image} id={product.id} />
               <CardProduct.Body name={product.title}>
                 {product.description}
               </CardProduct.Body>
