@@ -2,17 +2,28 @@ import { Fragment, useEffect, useRef, useState } from "react";
 import Button from "../components/Elements/Button/";
 import CardProduct from "../components/Fragments/CardProduct";
 import {getProducts} from "../services/product.service";
+import {getUsername} from "../services/auth.service";
  
-const email = localStorage.getItem("email");
 
 const ProductPage = () => {
   const [cart, setCart] = useState([]);
   const [totalPrice,setTotalPrice] = useState(0);
   const [products, setProducts] = useState([]);
+  const [username, setUsername] = useState("");
   
   useEffect(() => {
     setCart(JSON.parse(localStorage.getItem("cart")) || []);
   }, []);
+  
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setUsername(getUsername(token));
+    } else {
+      window.location.href = "/login";
+    }
+    
+  });
   
   useEffect(() => {
     getProducts((data) => {
@@ -32,8 +43,8 @@ const ProductPage = () => {
   }, [cart, products]);
 
   const handleLogout = () => {
-    localStorage.removeItem("email");
-    localStorage.removeItem("password");
+    localStorage.removeItem("token");
+    //localStorage.removeItem("password");
     window.location.href = "/login";
   };
 
@@ -60,7 +71,7 @@ useEffect(() => {
   return (
     <Fragment>
       <div className="flex justify-between items-center h-20 bg-blue-600 text-white px-4 md:px-10">
-        <span className="text-sm md:text-base">{email}</span>
+        <span className="text-sm md:text-base">{username}</span>
         <Button className="ml-5 bg-black" onClick={handleLogout}>
           Logout
         </Button>
