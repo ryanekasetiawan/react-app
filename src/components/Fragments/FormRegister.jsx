@@ -1,14 +1,23 @@
 import Button from "../Elements/Button/";
 import InputForm from "../Elements/Input/";
+import { useEffect, useRef } from "react";
+
 
 const FormRegister = () => {
+  const fullNameRef = useRef(null);
+
+  useEffect(() => {
+    fullNameRef.current.focus();
+  }, []);
+  
   return (
     <form action="">
         <InputForm
-          label="Fullname"
+          label="Full Name"
           type="text"
           placeholder="insert your name"
           name="fullname"
+          ref={fullNameRef}
         />
         <InputForm
           label="Email"

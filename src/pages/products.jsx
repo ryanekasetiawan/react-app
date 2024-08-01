@@ -1,7 +1,7 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import Button from "../components/Elements/Button/";
 import CardProduct from "../components/Fragments/CardProduct";
-
+ 
 const products = [
   {
     id: 1,
@@ -63,6 +63,16 @@ useEffect(() => {
     }
   };
 
+const totalPriceRef = useRef(null);
+
+useEffect(() => {
+  if (cart.length > 0) {
+    totalPriceRef.current.style.display= "table-row";
+  } else {
+    totalPriceRef.current.style.display= "none";
+  }
+});
+
   return (
     <Fragment>
       <div className="flex justify-between items-center h-20 bg-blue-600 text-white px-4 md:px-10">
@@ -113,7 +123,7 @@ useEffect(() => {
                     </tr>
                   );
                 })}
-                <tr>
+                <tr ref={totalPriceRef}>
                   <td colSpan="3">
                     <b>Total Price</b>
                   </td>
