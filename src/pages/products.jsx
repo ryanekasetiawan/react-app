@@ -1,51 +1,35 @@
 import { Fragment, useEffect, useRef, useState } from "react";
 import Button from "../components/Elements/Button/";
 import CardProduct from "../components/Fragments/CardProduct";
+import {getProducts} from "../services/product.service";
  
-const products = [
-  {
-    id: 1,
-    name: "Sepatu Baru",
-    image: "/images/shoes-1.jpg",
-    price: 1000000,
-    description: "exercitation eu reprehenderit laboris non velit consectetur proident aute mollit aute enim tempor sunt irure mollit ipsum proident voluptate ullamco"
-  },
-  {
-    id: 2,
-    name: "Sepatu Lama",
-    image: "/images/shoes-1.jpg",
-    price: 500000,
-    description: "exercitation eu reprehenderit laboris non velit"
-  },
-  {
-    id: 3,
-    name: "Sepatu Lama",
-    image: "/images/shoes-1.jpg",
-    price: 2000000,
-    description: "exercitation eu reprehenderit laboris non velit"
-  }
-];
-
 const email = localStorage.getItem("email");
 
 const ProductPage = () => {
   const [cart, setCart] = useState([]);
   const [totalPrice,setTotalPrice] = useState(0);
+  const [products, setProducts] = useState([]);
   
-useEffect(() => {
-  setCart(JSON.parse(localStorage.getItem("cart")) || []);
-}, []);
-
-useEffect(() => {
-  if (cart.length > 0) {
-    const sum = cart.reduce((acc, item) => {
-      const product = products.find((product) => product.id === item.id);
-      return acc + product.price * item.qty;
-    }, 0);
-    setTotalPrice(sum);
-    localStorage.setItem("cart", JSON.stringify(cart));
-  }
-}, [cart]);
+  useEffect(() => {
+    setCart(JSON.parse(localStorage.getItem("cart")) || []);
+  }, []);
+  
+  useEffect(() => {
+    getProducts((data) => {
+      setProducts(data);
+    });
+  }, []);
+  
+  useEffect(() => {
+    if (products.length > 0 && cart.length > 0) {
+      const sum = cart.reduce((acc, item) => {
+        const product = products.find((product) => product.id === item.id);
+        return acc + product.price * item.qty;
+      }, 0);
+      setTotalPrice(sum);
+      localStorage.setItem("cart", JSON.stringify(cart));
+    }
+  }, [cart, products]);
 
   const handleLogout = () => {
     localStorage.removeItem("email");
@@ -83,10 +67,10 @@ useEffect(() => {
       </div>
       <div className="flex flex-col md:flex-row justify-center py-5 px-4 md:px-0">
         <div className="w-full md:w-4/6 flex flex-wrap gap-4">
-          {products.map((product) => (
+          {products.length > 0 && products.map((product) => (
             <CardProduct key={product.id} className="w-full md:w-1/2 lg:w-1/3 p-2">
               <CardProduct.Header image={product.image} />
-              <CardProduct.Body name={product.name}>
+              <CardProduct.Body name={product.title}>
                 {product.description}
               </CardProduct.Body>
               <CardProduct.Footer
@@ -110,14 +94,14 @@ useEffect(() => {
                 </tr>
               </thead>
               <tbody>
-                {cart.map((item) => {
+                {products.length > 0 &&  cart.map((item) => {
                   const product = products.find(
                     (product) => product.id === item.id
                   );
                   return (
                     <tr key={item.id}>
-                      <td>{product.name}</td>
-                      <td>Rp {product.price.toLocaleString('id-ID', {styles: 'currency', currency: 'IDR'})}</td>
+                      <td>{product.title.substring(0, 10)}...</td>
+                      <td>$ {product.price.toLocaleString('id-ID', {styles: 'currency', currency: 'USD'})}</td>
                       <td>{item.qty}</td>
                       <td>{item.qty * product.price}</td>
                     </tr>
@@ -129,7 +113,7 @@ useEffect(() => {
                   </td>
                   <td>
                     <b>
-                      Rp {totalPrice.toLocaleString('id-ID', {styles: 'currency', currency: 'IDR'})}
+                      $ {totalPrice.toLocaleString('id-ID', {styles: 'currency', currency: 'USD'})}
                     </b>
                   </td>
                 </tr>
