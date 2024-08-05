@@ -2,7 +2,6 @@ import Button from "../Elements/Button/";
 import InputForm from "../Elements/Input/";
 import { useEffect, useRef } from "react";
 
-
 const FormRegister = () => {
   const fullNameRef = useRef(null);
 

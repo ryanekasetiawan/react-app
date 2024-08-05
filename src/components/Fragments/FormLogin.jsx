@@ -1,15 +1,13 @@
 import Button from "../Elements/Button/";
 import InputForm from "../Elements/Input/";
 import { useEffect, useRef, useState } from "react";
-import {login} from "../../services/auth.service"
+import {login} from "../../services/auth.service";
 
 const FormLogin = () => {
   const [loginFailed, setLoginFailed] = useState("");
   
   const handleLogin = (event) => {
     event.preventDefault();
-    //localStorage.setItem("email", event.target.email.value);
-    //localStorage.setItem("password", event.target.password.value);
     const data = {
       username: event.target.username.value,
       password: event.target.password.value,
