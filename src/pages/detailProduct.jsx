@@ -52,10 +52,14 @@ const DetailProductPage = () => {
               </div>
             </div>
             <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-6 text-sm font-medium">
-              <button className={`h-10 px-6 font-semibold rounded-md bg-black text-white ${isDarkMode && "bg-white text-slate-800"}`} type="submit">
+              <button className={`
+                h-10 px-6 font-semibold rounded-md bg-black text-white ${isDarkMode 
+                && "bg-white text-black"}`} type="submit">
                 Buy now
               </button>
-              <button className={`h-10 px-6 font-semibold rounded-md border border-slate-200 text-slate-900 ${isDarkMode && "text-white"}`} type="button">
+              <button className={`
+                h-10 px-6 font-semibold rounded-md border border-slate-200 text-slate-900 ${isDarkMode 
+                && "text-white"}`} type="button">
                 Add to bag
               </button>
               <button className="flex-none flex items-center justify-center w-9 h-9 rounded-md text-slate-300 border border-slate-200" type="button" aria-label="Like">
